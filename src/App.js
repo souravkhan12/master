@@ -1,18 +1,30 @@
 // App.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { v4 as uuidv4 } from "uuid";
 import Sidebar from "./components/Sidebar";
 import MidArea from "./components/MidArea";
 import PreviewArea from "./components/PreviewArea";
+import { usePositions } from "./components/usePositions";
 
 const BLOCKS = [
-  { id: "move", label: "Move 10 steps", icon: "", area: "sidebar" },
-  { id: "turn_right", label: "Turn 15 degrees", icon: "undo", area: "sidebar" },
-  { id: "turn_left", label: "Turn 15 degrees", icon: "redo", area: "sidebar" },
+  { id: "move", label: "move 10 steps", icon: "", area: "sidebar" },
+  {
+    id: "turn_right",
+    label: "rotate 15 degrees left",
+    icon: "undo",
+    area: "sidebar",
+  },
+  {
+    id: "turn_left",
+    label: "rotate 15 degrees right",
+    icon: "redo",
+    area: "sidebar",
+  },
 ];
 
 export default function App() {
+  const { arr, pushItems } = usePositions();
   const [midBlocks, setMidBlocks] = useState([]);
   const [activeBlock, setActiveBlock] = useState(null);
 
@@ -51,6 +63,10 @@ export default function App() {
     }
     setActiveBlock(null);
   };
+
+  useEffect(() => {
+    pushItems(midBlocks);
+  }, [midBlocks]);
 
   return (
     <div className="h-screen overflow-hidden flex flex-row">

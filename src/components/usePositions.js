@@ -1,39 +1,27 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const PositionContext = createContext();
 
 function PositionProvider({ children }) {
-  const [x, setX] = useState(0);
-  const [y, setY] = useState(0);
-  const [rotateLeft, setRotateLeft] = useState(0);
-  const [rotateRight, setRotateRight] = useState(0);
+  const [arr, setArr] = useState([]);
+  const [start, setStart] = useState(false);
+  const [idx, setIdx] = useState(0);
 
-  const handleXChange = (value) => {
-    setX((prevX) => prevX + value);
-  };
-
-  const handleYChange = (value) => {
-    setY((prevY) => prevY + value);
-  };
-  const handleRotateLeft = (value) => {
-    setRotateLeft((prevRotateLeft) => prevRotateLeft + value);
-  };
-
-  const handleRotateRight = (value) => {
-    setRotateRight((prevRotateRight) => prevRotateRight + value);
-  };
+  function pushItems(newval) {
+    const lableArr = newval.map((item) => item.label);
+    setArr(lableArr);
+  }
 
   return (
     <PositionContext.Provider
       value={{
-        x,
-        handleXChange,
-        y,
-        handleYChange,
-        rotateLeft,
-        handleRotateLeft,
-        rotateRight,
-        handleRotateRight,
+        arr,
+        setArr,
+        pushItems,
+        start,
+        setStart,
+        idx,
+        setIdx,
       }}
     >
       {children}

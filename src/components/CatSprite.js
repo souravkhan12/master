@@ -1,22 +1,48 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { usePositions } from "./usePositions";
 
 export default function CatSprite() {
-  const { x, y, rotateLeft, rotateRight } = usePositions();
+  const [x, setX] = useState(0);
+  const [rotation, setRotation] = useState(0);
+  const { start, arr, idx, setIdx } = usePositions();
+
+  useEffect(() => {
+    if (start == false) {
+      return;
+    }
+    if (idx >= arr.length) {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      const carr = arr[idx].split(" ");
+      console.log(carr);
+      if (carr[0] === "move") {
+        setX((x) => x + 10);
+      } else if (carr[0] === "rotate") {
+        if (carr[3] === "left") {
+          setRotation((rt) => rt - 15);
+        } else {
+          setRotation((rt) => rt + 15);
+        }
+      }
+      console.log(carr[1]);
+      setIdx(idx + 1);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [start, idx]);
+
   return (
     <svg
-      className="cursor-pointer transform absolute"
-      style={{
-        transform: `translate(${x}px, ${y}px) rotate(${
-          -rotateLeft + rotateRight
-        }deg)`,
-      }}
+      className="cursor-pointer absolute transition-transform duration-500"
       xmlns="http://www.w3.org/2000/svg"
-      width="95.17898101806641"
-      height="100.04156036376953"
-      viewBox="0.3210171699523926 0.3000000357627869 95.17898101806641 100.04156036376953"
-      version="1.1"
-      xmlSpace="preserve"
+      width="95.17"
+      height="100.04"
+      viewBox="0 0 95.17 100.04"
+      style={{
+        transform: `translateX(${x}px) rotate(${rotation}deg)`,
+      }}
     >
       <g>
         <g id="Page-1" stroke="none" fillRule="evenodd">
