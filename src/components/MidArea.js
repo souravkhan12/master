@@ -13,11 +13,11 @@ function DraggableMidBlock({ block }) {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className="bg-gray-200 text-black px-2 py-1 my-2 text-sm cursor-pointer flex items-center"
+      className="flex w-60 bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded"
     >
       {block.label}
       {block.icon && (
-        <Icon name={block.icon} className="text-black mx-2" size={15} />
+        <Icon name={block.icon} className="white mx-2" size={15} />
       )}
     </div>
   );

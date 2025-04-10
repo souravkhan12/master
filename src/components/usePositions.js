@@ -6,6 +6,7 @@ function PositionProvider({ children }) {
   const [arr, setArr] = useState([]);
   const [start, setStart] = useState(false);
   const [idx, setIdx] = useState(0);
+  const [rpt, setRepeat] = useState(false);
 
   function pushItems(newval) {
     const lableArr = newval.map((item) => item.label);
@@ -22,6 +23,8 @@ function PositionProvider({ children }) {
         setStart,
         idx,
         setIdx,
+        rpt,
+        setRepeat,
       }}
     >
       {children}

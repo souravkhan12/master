@@ -22,8 +22,8 @@ function DraggableBlock({ id, label, icon }) {
   );
 }
 
-export default function Sidebar({ blocks }) {
-  const { setStart } = usePositions();
+export default function Sidebar({ blocks, LooksBlocks }) {
+  const { setStart, setRepeat } = usePositions();
 
   return (
     <div className="w-60 flex-none h-full overflow-y-auto flex flex-col items-start p-2 border-r border-gray-200">
@@ -42,9 +42,20 @@ export default function Sidebar({ blocks }) {
       >
         {"When this sprite clicked"}
       </div>
+      <div
+        onClick={() => setRepeat(true)}
+        className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer"
+      >
+        {"Repeat"}
+      </div>
       <div className="font-bold"> {"Motion"} </div>
 
       {blocks.map((block) => (
+        <DraggableBlock key={block.id} {...block} />
+      ))}
+
+      <div className="font-bold"> {"Looks"} </div>
+      {LooksBlocks.map((block) => (
         <DraggableBlock key={block.id} {...block} />
       ))}
     </div>

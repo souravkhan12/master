@@ -23,6 +23,16 @@ const BLOCKS = [
   },
 ];
 
+const LooksBlocks = [
+  { id: "say", label: "say hello for 2 seconds", icon: "", area: "sidebar" },
+  {
+    id: "think",
+    label: "think Hmmm for 2 seconds",
+    icon: "",
+    area: "sidebar",
+  },
+];
+
 export default function App() {
   const { arr, pushItems } = usePositions();
   const [midBlocks, setMidBlocks] = useState([]);
@@ -34,24 +44,24 @@ export default function App() {
 
     const foundBlock =
       BLOCKS.find((b) => b.id === active.id) ||
-      midBlocks.find((b) => b.id === active.id);
+      midBlocks.find((b) => b.id === active.id) ||
+      LooksBlocks.find((b) => b.id === active.id);
     setActiveBlock(foundBlock || { id: active.id });
-
-    if (area === "mid-area") {
-      setMidBlocks((prev) => prev.filter((b) => b.id !== id));
-      return;
-    }
   };
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
+    const { area, id } = active.data.current;
 
     if (!over) {
+      if (area === "mid-area") {
+        setMidBlocks((prev) => prev.filter((b) => b.id !== id));
+      }
       setActiveBlock(null);
       return;
     }
 
-    if (active.data.current.label && over.id === "mid-area") {
+    if (active.data.current.area !== "mid-area" && over.id === "mid-area") {
       setMidBlocks((prev) => [
         ...prev,
         {
@@ -72,7 +82,7 @@ export default function App() {
     <div className="h-screen overflow-hidden flex flex-row">
       <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         <div className="flex-1 h-screen flex flex-row bg-white border-r border-gray-200">
-          <Sidebar blocks={BLOCKS} />
+          <Sidebar blocks={BLOCKS} LooksBlocks={LooksBlocks} />
           <MidArea blocks={midBlocks} />
         </div>
         <div className="w-1/3 h-screen bg-white border-l border-gray-200">
